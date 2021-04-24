@@ -1,5 +1,5 @@
 import { userConstants } from "./constants";
-import { firestore } from "firebase/app";
+import firebase from "firebase/app";
 
 export const getRealtimeUsers = (uid) => {
   //console.log('uid', uid)
@@ -7,7 +7,7 @@ export const getRealtimeUsers = (uid) => {
   return async (dispatch) => {
     dispatch({ type: `${userConstants.GET_REALTIME_USERS}_REQUEST` });
 
-    const db = firestore();
+    const db = firebase.firestore();
     const unsubscribe = db
       .collection("users")
       //.where("uid", "!=", uid)
@@ -32,7 +32,7 @@ export const getRealtimeUsers = (uid) => {
 
 export const updateMessage = (msgObj) => {
   return async (dispatch) => {
-    const db = firestore();
+    const db = firebase.firestore();
     db.collection("conversations")
       .add({
         ...msgObj,
@@ -54,7 +54,7 @@ export const updateMessage = (msgObj) => {
 
 export const getRealtimeConversations = (user) => {
   return async (dispatch) => {
-    const db = firestore();
+    const db = firebase.firestore();
     db.collection("conversations")
       .where("user_uid_1", "in", [user.uid_1, user.uid_2])
       .orderBy("createdAt", "asc")

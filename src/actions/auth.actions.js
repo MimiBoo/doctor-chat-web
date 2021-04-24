@@ -1,18 +1,19 @@
-import { auth, firestore } from "firebase";
+import firebase from "firebase";
 import { authConstanst } from "./constants";
 import { getRealtimeUsers } from "./user.actions";
 
 export const signup = (user) => {
   return async (dispatch) => {
-    const db = firestore();
+    const db = firebase.firestore();
 
     dispatch({ type: `${authConstanst.USER_LOGIN}_REQUEST` });
 
-    auth()
+    firebase
+      .auth()
       .createUserWithEmailAndPassword(user.email, user.password)
       .then((data) => {
         console.log(data);
-        const currentUser = auth().currentUser;
+        const currentUser = firebase.auth().currentUser;
         const name = `${user.firstName} ${user.lastName}`;
         currentUser
           .updateProfile({
@@ -62,12 +63,13 @@ export const signup = (user) => {
 export const signin = (user) => {
   return async (dispatch) => {
     dispatch({ type: `${authConstanst.USER_LOGIN}_REQUEST` });
-    auth()
+    firebase
+      .auth()
       .signInWithEmailAndPassword(user.email, user.password)
       .then((data) => {
         console.log(data);
 
-        const db = firestore();
+        const db = firebase.firestore();
         db.collection("doctors")
           .doc(data.user.uid)
           .update({
@@ -131,14 +133,15 @@ export const logout = (uid) => {
     dispatch({ type: `${authConstanst.USER_LOGOUT}_REQUEST` });
     //Now lets logout user
 
-    const db = firestore();
+    const db = firebase.firestore();
     db.collection("users")
       .doc(uid)
       .update({
         isOnline: false,
       })
       .then(() => {
-        auth()
+        firebase
+          .auth()
           .signOut()
           .then(() => {
             //successfully

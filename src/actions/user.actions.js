@@ -1,5 +1,5 @@
 import { userConstants } from "./constants";
-import { firestore } from "firebase";
+import { firestore } from "firebase/app";
 
 export const getRealtimeUsers = (uid) => {
   //console.log('uid', uid)

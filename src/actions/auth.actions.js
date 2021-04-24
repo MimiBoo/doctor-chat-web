@@ -1,4 +1,4 @@
-import firebase from "firebase";
+import firebase from "firebase/app";
 import { authConstanst } from "./constants";
 import { getRealtimeUsers } from "./user.actions";
 

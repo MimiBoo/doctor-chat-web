@@ -33,7 +33,7 @@ export const getRealtimeUsers = (uid) => {
 export const updateMessage = (msgObj) => {
   return async (dispatch) => {
     const db = firebase.firestore();
-    db.collection("conversations")
+    db.collection("chats")
       .add({
         ...msgObj,
         isView: false,
@@ -55,7 +55,7 @@ export const updateMessage = (msgObj) => {
 export const getRealtimeConversations = (user) => {
   return async (dispatch) => {
     const db = firebase.firestore();
-    db.collection("conversations")
+    db.collection("chats")
       .where("user_uid_1", "in", [user.uid_1, user.uid_2])
       .orderBy("createdAt", "asc")
       .onSnapshot((querySnapshot) => {

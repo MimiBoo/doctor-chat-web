@@ -26,7 +26,6 @@ export const signup = (user) => {
               .set({
                 firstName: user.firstName,
                 lastName: user.lastName,
-
                 createdAt: new Date(),
                 isOnline: true,
               })
@@ -132,9 +131,9 @@ export const logout = (uid) => {
   return async (dispatch) => {
     dispatch({ type: `${authConstanst.USER_LOGOUT}_REQUEST` });
     //Now lets logout user
-
+    console.log(`UID: ${uid}`);
     const db = firebase.firestore();
-    db.collection("users")
+    db.collection("doctors")
       .doc(uid)
       .update({
         isOnline: false,
